@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英検1級 二次試験ノート｜Political parties no longer represent ordinary citizens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14202B;
+    --slate:#4A5F70;
+    --paper:#E7ECEE;
+    --card:#FCFDFD;
+    --rule:#C6D0D5;
+    --teal:#0F6E66;
+    --marker:#F4CB68;
+  }
+
+  *{box-sizing:border-box;}
+
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Zen Kaku Gothic New",system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.85;
+    padding:0 20px 96px;
+  }
+
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* ---------- header ---------- */
+  header{padding:72px 0 44px;border-bottom:2px solid var(--ink);}
+
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 20px;
+  }
+
+  h1{
+    font-family:"Newsreader",serif;
+    font-weight:400;font-size:clamp(30px,6.2vw,46px);
+    line-height:1.22;letter-spacing:-.01em;margin:0 0 18px;
+  }
+
+  .topic-ja{color:var(--slate);font-size:15px;margin:0 0 28px;}
+
+  .stance{
+    display:inline-flex;align-items:baseline;gap:12px;
+    font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.1em;
+    border:1px solid var(--ink);padding:7px 16px;
+  }
+  .stance b{font-size:16px;letter-spacing:.08em;}
+
+  /* ---------- sections ---------- */
+  section{padding-top:56px;}
+
+  h2{
+    font-family:"Shippori Mincho B1",serif;
+    font-weight:700;font-size:22px;line-height:1.4;
+    margin:0 0 4px;
+  }
+  .h2-en{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--slate);
+    margin:0 0 26px;
+  }
+
+  /* ---------- outline ---------- */
+  ol.outline{list-style:none;margin:0;padding:0;}
+  ol.outline li{
+    display:grid;grid-template-columns:52px 1fr;gap:0 18px;
+    padding:18px 0;border-top:1px solid var(--rule);
+  }
+  ol.outline li:last-child{border-bottom:1px solid var(--rule);}
+  .num{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;
+    color:var(--teal);padding-top:6px;letter-spacing:.06em;
+  }
+  .step-label{font-weight:700;font-size:15px;display:block;margin-bottom:2px;}
+  .step-body{color:var(--slate);font-size:14.5px;line-height:1.8;}
+
+  /* ---------- fact box ---------- */
+  .facts{
+    background:var(--card);border-left:3px solid var(--teal);
+    padding:22px 24px;margin-top:8px;
+  }
+  .facts p{margin:0 0 10px;font-size:14.5px;}
+  .facts p:last-child{margin-bottom:0;}
+  .facts .en{font-family:"Newsreader",serif;font-size:16px;color:var(--ink);}
+
+  /* ---------- script ---------- */
+  .script{
+    background:var(--card);
+    border-top:2px solid var(--ink);
+    margin-top:14px;padding:26px 26px 30px;
+  }
+  .script-head{
+    display:flex;flex-wrap:wrap;align-items:baseline;
+    gap:8px 18px;margin-bottom:22px;
+  }
+  .script-title{font-family:"Shippori Mincho B1",serif;font-weight:700;font-size:19px;}
+  .meta{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+    letter-spacing:.08em;color:var(--slate);
+  }
+  .script p{
+    font-family:"Newsreader",serif;
+    font-size:19px;line-height:1.72;
+    margin:0 0 20px;padding-left:18px;
+    border-left:2px solid var(--rule);
+  }
+  .script p:last-child{margin-bottom:0;}
+  .script[data-level="a"] p{border-left-color:var(--teal);}
+
+  .cue{
+    background-image:linear-gradient(transparent 58%,var(--marker) 58%);
+    padding:0 2px;
+  }
+
+  .aside{
+    font-size:13.5px;color:var(--slate);
+    margin:16px 0 0;padding-left:18px;
+  }
+
+  /* ---------- phrase list ---------- */
+  dl.phrases{margin:0;}
+  dl.phrases div{
+    padding:14px 0;border-top:1px solid var(--rule);
+  }
+  dl.phrases div:last-child{border-bottom:1px solid var(--rule);}
+  dl.phrases dt{
+    font-family:"Newsreader",serif;font-size:18px;line-height:1.5;
+  }
+  dl.phrases dd{margin:2px 0 0;color:var(--slate);font-size:14px;}
+
+  /* ---------- Q&A ---------- */
+  .qa div{padding:16px 0;border-top:1px solid var(--rule);}
+  .qa div:last-child{border-bottom:1px solid var(--rule);}
+  .q{font-family:"Newsreader",serif;font-size:17.5px;line-height:1.5;margin:0 0 6px;}
+  .a{margin:0;color:var(--slate);font-size:14.5px;}
+  .a::before{content:"→ ";color:var(--teal);}
+
+  footer{
+    margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+    letter-spacing:.06em;color:var(--slate);
+  }
+
+  a{color:var(--teal);}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+
+  @media (max-width:560px){
+    body{padding:0 16px 72px;}
+    header{padding:48px 0 34px;}
+    .script{padding:20px 18px 24px;}
+    .script p{font-size:17.5px;padding-left:14px;}
+    ol.outline li{grid-template-columns:40px 1fr;gap:0 12px;}
+  }
+
+  @media print{
+    body{background:#fff;padding:0;font-size:12pt;}
+    .script,.facts{background:#fff;}
+    section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">英検1級 / 二次試験スピーチ / 練習ノート</p>
+    <h1>Political parties no longer<br>represent ordinary citizens.</h1>
+    <p class="topic-ja">政党はもはや標準的な国民を適切に代表していない — 賛成か反対かを述べる</p>
+    <div class="stance"><span>MY POSITION</span><b>AGREE</b></div>
+  </header>
+
+  <section>
+    <h2>論の骨格</h2>
+    <p class="h2-en">The skeleton — 日本語で流れを固めてから英語に乗せる</p>
+    <ol class="outline">
+      <li>
+        <span class="num">01</span>
+        <span><span class="step-label">立場</span><span class="step-body">賛成。理由は2つ — 政党の内部分裂と、国民側の多様化。</span></span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span><span class="step-label">理由① 政党が内部で割れている</span><span class="step-body">同じ党の中でも指導者の考えが正反対。だから「特定の政治家は支持するが、その党は支持できない」が起こる。党が一つの立場を代表できないなら、有権者も代表できない。</span></span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span><span class="step-label">理由② 国民の側が多様化した</span><span class="step-body">かつては正規分布の中央（ボリュームゾーン）を買う人が多く、大量生産が機能した。今は需要が分布の端＝ロングテールへ移った。政党は中央を取りに行く設計のまま、痩せた中央に向けてマス商品を売り続けている。</span></span>
+      </li>
+      <li>
+        <span class="num">04</span>
+        <span><span class="step-label">結論</span><span class="step-body">政党が変わったのではない。「標準的な国民」という一つの塊がもう存在しない。</span></span>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>固有名詞メモ</h2>
+    <p class="h2-en">Getting the facts right</p>
+    <div class="facts">
+      <p>高市早苗＝第105代内閣総理大臣（2025年10月就任・現在は第2次高市内閣）。石破茂＝その前任（2024年10月〜2025年10月）。両者とも自由民主党。</p>
+      <p class="en">Prime Minister Takaichi / former Prime Minister Ishiba, both from the Liberal Democratic Party</p>
+      <p>党名は初出だけフルネーム、以降は LDP。「the governing party」を一言添えると、日本政治に詳しくない試験官にも即座に通じる。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Version A — 推奨</h2>
+    <p class="h2-en">Higher register / 本番で狙う版</p>
+    <div class="script" data-level="a" lang="en">
+      <div class="script-head">
+        <span class="script-title">Version A</span>
+        <span class="meta">ABOUT 255 WORDS &nbsp;/&nbsp; ABOUT 1 MIN 55 SEC</span>
+      </div>
+      <p>I agree with this statement, for two reasons: political parties are internally divided, and the public itself has become far too diverse to be represented by them.</p>
+      <p>First, parties are no longer unified. Look at Japan today. Prime Minister Takaichi and her predecessor, former Prime Minister Ishiba, both come from the Liberal Democratic Party, the governing party — and yet their views on the economy, security, and social issues are almost opposite. Personally, I support Prime Minister Takaichi, but I cannot honestly say that I support the LDP itself. If a single party cannot represent one consistent position, it cannot represent voters either.</p>
+      <p>Second, and more fundamentally, the public has become extremely diverse. I once learned in a marketing class that small companies now have an advantage over large ones. In the past, most consumers bought products in the so-called volume zone, the middle of the distribution, so mass production worked well. Today, demand has moved toward the tails of that distribution — to what is often called the long tail. People want products that fit their own particular needs.</p>
+      <p>Exactly the same thing has happened in politics. Parties are designed to capture the middle of public opinion, but that middle has become thin. <span class="cue">They are still trying to sell a mass-market product to a long-tail society.</span></p>
+      <p>For these reasons, political parties no longer represent ordinary citizens. It is not that parties have changed, but that "ordinary citizens" no longer exist as a single group.</p>
+      <p class="aside" lang="ja">黄色の一文が決め台詞。ここで一拍置くと効く。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Version B — 話しやすい</h2>
+    <p class="h2-en">Plainer English / 口が慣れるまではこちらから</p>
+    <div class="script" lang="en">
+      <div class="script-head">
+        <span class="script-title">Version B</span>
+        <span class="meta">ABOUT 180 WORDS &nbsp;/&nbsp; ABOUT 1 MIN 20 SEC</span>
+      </div>
+      <p>I agree with this statement. I have two reasons.</p>
+      <p>First, parties are divided inside. In Japan, Prime Minister Takaichi and the prime minister before her, Mr. Ishiba, are both members of the same party, the Liberal Democratic Party. But their opinions are very different. I support Prime Minister Takaichi, but I cannot say that I support her party. If a party does not have one clear opinion, it cannot represent people's opinions.</p>
+      <p>Second, people themselves have become very different from each other. When I was a graduate student, a marketing teacher said that small companies will become stronger. In the past, most people bought the same popular products, so big companies were strong. But now people want many different things, not only the most popular ones. <span class="cue">This is called the long tail.</span></p>
+      <p>Politics is the same. Parties try to represent the biggest group of people, but that group is getting smaller and smaller. So it is difficult for parties to represent everyone.</p>
+      <p>For these reasons, I think political parties no longer represent ordinary people.</p>
+      <p class="aside" lang="ja">2分に対して40秒ほど余る。焦らず、ゆっくり話す余裕として使う。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>キーフレーズ</h2>
+    <p class="h2-en">Phrases worth owning</p>
+    <dl class="phrases">
+      <div><dt>internally divided / fragmented</dt><dd>内部で分裂している</dd></div>
+      <div><dt>her predecessor</dt><dd>前任者。一語で言えると印象が上がる</dd></div>
+      <div><dt>the volume zone → the long tail</dt><dd>ボリュームゾーンからロングテールへ。論の心臓部</dd></div>
+      <div><dt>the middle of public opinion has become thin</dt><dd>中間層が痩せた</dd></div>
+      <div><dt>a mass-market product in a long-tail society</dt><dd>決め台詞</dd></div>
+      <div><dt>It is not that X, but that Y</dt><dd>「Xなのではなく、Yなのだ」— 結論の型</dd></div>
+    </dl>
+    <p class="aside" style="padding-left:0;">発音：Takaichi は「タカ<b>イー</b>チ」、Ishiba は「イ<b>シー</b>バ」。真ん中を少し伸ばすと聞き取られやすい。</p>
+  </section>
+
+  <section>
+    <h2>想定Q&amp;A</h2>
+    <p class="h2-en">Follow-up questions</p>
+    <div class="qa">
+      <div>
+        <p class="q" lang="en">Then how should democracy work without parties?</p>
+        <p class="a">小規模政党による連立、争点ごとの投票。「代表の単位を小さくする」方向で答える</p>
+      </div>
+      <div>
+        <p class="q" lang="en">Why does the LDP stay in power, then?</p>
+        <p class="a">代表しているから勝つのではなく、対抗する側がさらに分裂しているから勝っている</p>
+      </div>
+      <div>
+        <p class="q" lang="en">Is this only a Japanese problem?</p>
+        <p class="a">米欧の党内対立にも同じ構造。分裂は日本固有ではない</p>
+      </div>
+      <div>
+        <p class="q" lang="en">Do you think this trend will continue?</p>
+        <p class="a">消費行動が中央に戻らない以上、政治も戻らない — 経済の比喩で押し切る</p>
+      </div>
+      <div>
+        <p class="q" lang="en">Isn't this bad for political stability?</p>
+        <p class="a">多様性のコストとして受け入れるか、代表制の設計そのものを変えるか、の二択</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>英検1級 二次試験 練習ノート ／ 政党と代表 ／ 2026-08-19</footer>
+
+</div>
+</body>
+</html>
