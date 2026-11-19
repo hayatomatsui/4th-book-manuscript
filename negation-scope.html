@@ -1,0 +1,596 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>否定の範囲</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Lora:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+  /* Layout: single scroll with a sticky section nav; four semantic colors carry the four negation categories */
+  :root{
+    --bg:#f4f5f7; --surface:#ffffff; --surface-2:#eef0f4;
+    --fg:#1c2230; --muted:#5d6678; --line:#dfe3ea;
+    --accent:#3d5afe; --accent-soft:#e7ebff;
+    /* category colors */
+    --full:#d8372b;      --full-soft:#fbe6e4;   /* 全否定 */
+    --partial:#1f6fd4;   --partial-soft:#e3eefb;/* 部分否定 */
+    --quant:#0a8f7a;     --quant-soft:#dcf2ee;  /* 量・程度の否定 */
+    --semi:#7a44c9;      --semi-soft:#eee2fb;   /* 準否定 */
+    --ok:#1f9d5b; --ng:#d8372b;
+    --jp:"Zen Kaku Gothic New",system-ui,sans-serif;
+    --en:"Lora",Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#11141b; --surface:#1a1f29; --surface-2:#222835;
+    --fg:#eef1f6; --muted:#9aa4b6; --line:#2d3543;
+    --accent:#7d90ff; --accent-soft:#242c45;
+    --full:#ff6b5e; --full-soft:#3a1f1d;
+    --partial:#64a6f5; --partial-soft:#17293f;
+    --quant:#39c9b2; --quant-soft:#123029;
+    --semi:#b388f0; --semi-soft:#271a3c;
+    --ok:#3fc77e; --ng:#ff6b5e;
+    color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#11141b; --surface:#1a1f29; --surface-2:#222835;
+    --fg:#eef1f6; --muted:#9aa4b6; --line:#2d3543;
+    --accent:#7d90ff; --accent-soft:#242c45;
+    --full:#ff6b5e; --full-soft:#3a1f1d;
+    --partial:#64a6f5; --partial-soft:#17293f;
+    --quant:#39c9b2; --quant-soft:#123029;
+    --semi:#b388f0; --semi-soft:#271a3c;
+    --ok:#3fc77e; --ng:#ff6b5e;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:var(--jp);line-height:1.7;margin:0}
+  .wrap{max-width:860px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+  .en{font-family:var(--en)}
+  h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+  .eyebrow{font-size:.72rem;letter-spacing:.18em;font-weight:700;color:var(--accent);text-transform:uppercase}
+
+  /* ---- hero ---- */
+  header{padding-block:46px 30px}
+  header h1{font-size:clamp(2rem,7vw,3.2rem);font-weight:900;letter-spacing:.01em}
+  header p.lead{color:var(--muted);margin:16px 0 0;font-size:1.02rem;max-width:62ch}
+
+  /* ---- sticky nav ---- */
+  nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line);margin-top:26px}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:11}
+  .toc .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+  .toc .wrap::-webkit-scrollbar{display:none}
+  .toc a{flex:0 0 auto;font-size:.86rem;font-weight:500;text-decoration:none;color:var(--muted);padding:6px 12px;border-radius:999px;white-space:nowrap}
+  .toc a:hover{color:var(--fg);background:var(--surface-2)}
+
+  section{padding-block:40px 8px}
+  section > .wrap > h2{font-size:clamp(1.4rem,4.5vw,1.9rem);font-weight:900;display:flex;align-items:center;gap:.55rem}
+  section > .wrap > p.sub{color:var(--muted);margin:10px 0 24px}
+
+  /* ---- toggle demo ---- */
+  .demo{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+  .demo .switch{display:flex;gap:8px;background:var(--surface-2);border-radius:999px;padding:5px;margin-bottom:22px}
+  .demo .switch button{flex:1;border:0;background:transparent;color:var(--muted);font-family:var(--jp);font-weight:700;font-size:.92rem;padding:9px 6px;border-radius:999px;cursor:pointer;transition:.18s}
+  .demo .switch button[aria-selected="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+  .stage{display:grid;gap:14px}
+  .sent{font-family:var(--en);font-size:clamp(1.15rem,4.6vw,1.6rem);font-weight:600;letter-spacing:.01em}
+  .sent b{padding:0 .12em;border-radius:5px}
+  .gloss{font-size:1.05rem;font-weight:500}
+  .meter{display:flex;gap:4px;margin-top:4px}
+  .meter i{height:16px;flex:1;border-radius:3px;background:var(--surface-2);border:1px solid var(--line)}
+  .meter i.on{border-color:transparent}
+  .note{font-size:.9rem;color:var(--muted);border-left:3px solid var(--tagc,var(--accent));padding-left:12px}
+  .tag{display:inline-block;font-size:.76rem;font-weight:700;padding:3px 10px;border-radius:999px}
+  .t-full{color:var(--full);background:var(--full-soft)} .m-full{background:var(--full)!important}
+  .t-partial{color:var(--partial);background:var(--partial-soft)} .m-partial{background:var(--partial)!important}
+
+  /* ---- marker reference ---- */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}
+  .card h3{font-size:1.02rem;display:flex;align-items:center;gap:.5rem;margin-bottom:12px}
+  .dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+  .pairs{display:grid;gap:9px}
+  .pairs .row{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;font-size:.92rem}
+  .pairs code{font-family:var(--en);font-weight:600;color:var(--fg);background:var(--surface-2);padding:1px 7px;border-radius:6px;white-space:nowrap}
+  .pairs .mn{color:var(--muted)}
+
+  /* ---- tap-to-reveal (量・程度 & 落とし穴) ---- */
+  .rv{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface-2);border-radius:12px;padding:12px 14px;cursor:pointer;font-family:var(--jp);color:var(--fg);margin:9px 0;-webkit-tap-highlight-color:transparent;transition:border-color .15s}
+  .rv:hover{border-color:var(--quant)}
+  .rv:focus-visible{outline:2px solid var(--quant);outline-offset:2px}
+  .rv .q{display:flex;align-items:center;gap:10px}
+  .rv .en-s{font-family:var(--en);font-size:1.08rem;font-weight:600;flex:1;line-height:1.45}
+  .rv .en-s b{color:var(--quant);font-style:normal}
+  .rv .hint{font-size:.72rem;font-weight:700;color:var(--quant);background:var(--quant-soft);padding:3px 10px;border-radius:999px;flex:0 0 auto;white-space:nowrap}
+  .rv .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s ease}
+  .rv.open .a{grid-template-rows:1fr}
+  .rv .a-wrap{overflow:hidden}
+  .rv .a-in{padding-top:11px;margin-top:11px;border-top:1px dashed var(--line)}
+  .rv .jp-t{font-weight:700;font-size:1rem}
+  .rv .nt{color:var(--muted);font-size:.88rem;margin-top:5px}
+  .rv.open{border-color:var(--quant)}
+  .rv.open .hint{background:var(--quant);color:#fff}
+
+  /* ---- pitfalls accordion ---- */
+  .acc{display:grid;gap:10px}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  details[open]{border-color:var(--accent)}
+  summary{cursor:pointer;list-style:none;padding:15px 18px;font-weight:700;display:flex;align-items:center;gap:.6rem}
+  summary::-webkit-details-marker{display:none}
+  summary .num{font-family:var(--en);font-weight:600;color:var(--accent);font-size:.9rem;flex:0 0 auto}
+  summary .chev{margin-left:auto;transition:.2s;color:var(--muted)}
+  details[open] summary .chev{transform:rotate(90deg)}
+  .acc-body{padding:0 18px 16px;font-size:.95rem}
+  .acc-body .ex{font-family:var(--en);font-size:1.02rem;margin:8px 0 2px}
+  .acc-body .arw{color:var(--muted);font-family:var(--jp)}
+
+  /* ---- quiz ---- */
+  .quiz{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
+  .qhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .qhead .count{font-size:.85rem;color:var(--muted);font-weight:500}
+  .bar{height:7px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin-bottom:20px}
+  .bar > span{display:block;height:100%;background:var(--accent);width:0;transition:.3s}
+  .qtext{font-family:var(--en);font-size:clamp(1.15rem,4.6vw,1.5rem);font-weight:600;margin-bottom:6px}
+  .qjp{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:480px){.opts{grid-template-columns:1fr}}
+  .opt{border:1.5px solid var(--line);background:var(--surface-2);color:var(--fg);font-family:var(--jp);font-weight:700;font-size:.95rem;padding:14px 12px;border-radius:12px;cursor:pointer;text-align:left;transition:.15s}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt.correct{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,var(--surface))}
+  .opt.wrong{border-color:var(--ng);background:color-mix(in srgb,var(--ng) 15%,var(--surface))}
+  .fb{margin-top:16px;border-radius:12px;padding:14px 16px;font-size:.92rem;display:none}
+  .fb.show{display:block}
+  .fb.r{background:var(--quant-soft)}
+  .fb b{font-family:var(--en)}
+  .qfoot{margin-top:18px;display:flex;justify-content:flex-end}
+  .btn{border:0;background:var(--accent);color:#fff;font-family:var(--jp);font-weight:700;font-size:.95rem;padding:11px 24px;border-radius:11px;cursor:pointer}
+  .btn:disabled{opacity:.4;cursor:default}
+  .result{text-align:center;padding:14px 0}
+  .result .score{font-family:var(--en);font-size:3rem;font-weight:600;color:var(--accent)}
+  .hidden{display:none!important}
+  .opts-v{grid-template-columns:1fr!important}
+  .qtag{margin:-2px 0 16px}
+  .lead-box{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:16px 18px;margin-bottom:22px;font-size:.95rem}
+  .lead-box b.en{color:var(--fg)}
+  .lead-box .mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .lead-box .mini span{font-size:.8rem;font-weight:700;padding:4px 11px;border-radius:999px}
+
+  footer{color:var(--muted);font-size:.82rem;text-align:center;padding:40px 0 48px}
+  .themebtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);z-index:20;border:1px solid var(--line);background:var(--surface);color:var(--fg);width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:1.05rem;line-height:1}
+</style>
+
+<button class="themebtn" id="themebtn" aria-label="テーマ切替">◐</button>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">English Grammar · Scope of Negation</div>
+    <h1>否定の範囲</h1>
+    <p class="lead">「全部ダメ」なのか「全部がダメなわけではない」のか。<b>全否定</b>と<b>部分否定</b>、そして混同しやすい<b>量・程度の否定</b>と<b>準否定</b>を、比べて・見分けて・解いて整理します。</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#compare">① 2つの型を比べる</a>
+    <a href="#markers">② 目印で見分ける</a>
+    <a href="#pitfalls">③ 落とし穴</a>
+    <a href="#translate">④ 訳でチェック</a>
+    <a href="#quiz">⑤ 仕上げクイズ</a>
+  </div>
+</nav>
+
+<!-- ① compare -->
+<section id="compare">
+  <div class="wrap">
+    <h2>① 2つの型を比べる</h2>
+    <p class="sub"><b class="en">not</b> に <b>all / always</b> などが <b>くっつく</b> と「全部が〜なわけではない」＝<b>部分否定</b>。<b class="en">no</b>・<b class="en">never</b> が <b>単独で</b> 否定すると「まったく〜ない」＝<b>全否定</b>。<u>同じ単語でも意味が真逆</u>になります。タブを切り替えて見比べましょう。</p>
+    <div class="demo">
+      <div class="switch" role="tablist">
+        <button role="tab" aria-selected="true" data-k="partial">部分否定 (not + all/always)</button>
+        <button role="tab" aria-selected="false" data-k="full">全否定 (no / never)</button>
+      </div>
+      <div class="stage" id="stage"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ② markers -->
+<section id="markers">
+  <div class="wrap">
+    <h2>② 目印で見分ける</h2>
+    <p class="sub">否定語に <b>all・every・both・always・completely</b> などが付いたら部分否定。否定語が単独なら全否定。</p>
+    <div class="grid2">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--partial)"></span>部分否定 … 〜とは限らない</h3>
+        <div class="pairs">
+          <div class="row"><code>not all</code><span class="mn">すべてが〜なわけではない</span></div>
+          <div class="row"><code>not every</code><span class="mn">どれもが〜とは限らない</span></div>
+          <div class="row"><code>not both</code><span class="mn">両方とも〜なわけではない</span></div>
+          <div class="row"><code>not always</code><span class="mn">いつも〜とは限らない</span></div>
+          <div class="row"><code>not necessarily</code><span class="mn">必ずしも〜ない</span></div>
+          <div class="row"><code>not completely</code><span class="mn">完全に〜なわけではない</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--full)"></span>全否定 … まったく〜ない</h3>
+        <div class="pairs">
+          <div class="row"><code>no / none</code><span class="mn">どれも〜ない</span></div>
+          <div class="row"><code>not any</code><span class="mn">どれも〜ない</span></div>
+          <div class="row"><code>neither</code><span class="mn">どちらも〜ない</span></div>
+          <div class="row"><code>never</code><span class="mn">決して〜ない</span></div>
+          <div class="row"><code>nobody / no one</code><span class="mn">誰も〜ない</span></div>
+          <div class="row"><code>not at all</code><span class="mn">全然〜ない</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--quant)"></span>量・程度の否定（別枠）</h3>
+        <p class="note" style="--tagc:var(--quant);margin:0 0 12px">英語をタップすると訳と意味が開きます。「あまり〜ない」は<b>量の否定</b>。部分否定とは別物。</p>
+        <div id="quantRv"></div>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--semi)"></span>準否定語（別枠）</h3>
+        <div class="pairs">
+          <div class="row"><code>hardly / scarcely</code><span class="mn">ほとんど〜ない</span></div>
+          <div class="row"><code>seldom / rarely</code><span class="mn">めったに〜ない</span></div>
+        </div>
+        <p class="note" style="--tagc:var(--semi);margin-top:12px">「ほぼゼロ」だが完全なゼロではない第3グループ。訳語で部分否定と誤認しやすい。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ pitfalls -->
+<section id="pitfalls">
+  <div class="wrap">
+    <h2>③ 落とし穴</h2>
+    <p class="sub">試験で差がつく、まぎらわしいポイント。見出しをタップで開き、<b>英文をタップ</b>すると訳と意味が出ます。</p>
+    <div class="acc" id="acc"></div>
+  </div>
+</section>
+
+<!-- ④ translate -->
+<section id="translate">
+  <div class="wrap">
+    <h2>④ 訳でチェック</h2>
+    <p class="sub">まちがえやすい「<b style="color:var(--quant)">量・程度の否定</b>」と「落とし穴」を、<b>正しい日本語訳を選んで</b>確認します。</p>
+    <div class="lead-box">
+      <b>いちばんの急所：「ゼロではない」否定を見抜く。</b><br>
+      <b class="en">not much / few / hardly / seldom</b> は「<b>あまり〜ない・ほとんど〜ない・めったに〜ない</b>」。<u>少しはある／たまにはある</u>という意味で、「<b>まったく〜ない</b>（＝ゼロ）」ではありません。<br>
+      さらに <b class="en">neither</b>（どちらも〜ない＝全否定）と <b class="en">not both</b>（両方とも〜とは限らない＝部分否定）の取り違えにも注意。
+      <div class="mini">
+        <span style="color:var(--quant);background:var(--quant-soft)">量の否定＝あまり〜ない</span>
+        <span style="color:var(--semi);background:var(--semi-soft)">準否定＝ほとんど／めったに〜ない</span>
+        <span style="color:var(--full);background:var(--full-soft)">全否定＝まったく〜ない</span>
+      </div>
+    </div>
+    <div class="quiz">
+      <div id="tarea">
+        <div class="qhead"><span class="count" id="tcount"></span><span class="count" id="tscore"></span></div>
+        <div class="bar"><span id="tbar"></span></div>
+        <div class="qtext" id="ttext"></div>
+        <div class="qtag" id="ttag"></div>
+        <div class="opts opts-v" id="topts"></div>
+        <div class="fb" id="tfb"></div>
+        <div class="qfoot"><button class="btn" id="tnext" disabled>次へ →</button></div>
+      </div>
+      <div id="tresult" class="result hidden"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ quiz -->
+<section id="quiz">
+  <div class="wrap">
+    <h2>⑤ 仕上げクイズ</h2>
+    <p class="sub">英文の否定が4タイプ（全否定／部分否定／量・程度／準否定）のどれかを選びましょう。即時に解説が出ます。</p>
+    <div class="quiz">
+      <div id="qarea">
+        <div class="qhead">
+          <span class="count" id="qcount"></span>
+          <span class="count" id="qscore"></span>
+        </div>
+        <div class="bar"><span id="qbar"></span></div>
+        <div class="qtext" id="qtext"></div>
+        <div class="qjp" id="qjp"></div>
+        <div class="opts" id="qopts"></div>
+        <div class="fb" id="qfb"></div>
+        <div class="qfoot"><button class="btn" id="qnext" disabled>次へ →</button></div>
+      </div>
+      <div id="qresult" class="result hidden"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">否定の範囲 — 全否定 / 部分否定 / 量・程度の否定 / 準否定 の整理</footer>
+
+<script>
+(function(){
+  "use strict";
+  // theme toggle
+  var tb=document.getElementById('themebtn');
+  tb.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    var next=cur?(cur==='dark'?'light':'dark'):(dark?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+  });
+
+  // ---- compare demo ----
+  var demo={
+    partial:{
+      sent:['Not <b class="t-partial">all</b> the students passed.',
+            'He is <b class="t-partial">not always</b> right.'],
+      gloss:['生徒の<b>全員が</b>合格した<b>わけではない</b>（＝一部は落ちた）',
+             '彼は<b>いつも</b>正しい<b>とは限らない</b>'],
+      meter:[[1,1,1,0,0],[1,1,1,1,0]],
+      mcls:'m-partial',
+      tag:'<span class="tag t-partial">部分否定</span>',
+      note:'否定語 not が all / always を飲み込む。一部は当てはまる＝「〜とは限らない」。',
+      tagc:'var(--partial)'
+    },
+    full:{
+      sent:['<b class="t-full">No</b> student passed.',
+            'He is <b class="t-full">never</b> right.'],
+      gloss:['<b>誰も</b>合格し<b>なかった</b>（＝全員ダメ）',
+             '彼は<b>決して</b>正しく<b>ない</b>'],
+      meter:[[0,0,0,0,0],[0,0,0,0,0]],
+      mcls:'m-full',
+      tag:'<span class="tag t-full">全否定</span>',
+      note:'否定語が単独で立つ。例外ゼロ＝「まったく〜ない」。',
+      tagc:'var(--full)'
+    }
+  };
+  var stage=document.getElementById('stage');
+  function renderDemo(k){
+    var d=demo[k];
+    var html='';
+    for(var i=0;i<d.sent.length;i++){
+      var m='';
+      for(var j=0;j<d.meter[i].length;j++){m+='<i class="'+(d.meter[i][j]?('on '+d.mcls):'')+'"></i>';}
+      html+='<div style="padding-bottom:14px;'+(i?'border-top:1px solid var(--line);padding-top:16px':'')+'">'
+          +'<div class="sent">'+d.sent[i]+'</div>'
+          +'<div class="gloss">'+d.gloss[i]+'</div>'
+          +'<div class="meter" title="当てはまる割合">'+m+'</div></div>';
+    }
+    html+='<div>'+d.tag+'</div>';
+    html+='<p class="note" style="--tagc:'+d.tagc+'">'+d.note+'</p>';
+    stage.innerHTML=html;
+  }
+  var tabs=document.querySelectorAll('.switch button');
+  tabs.forEach(function(b){b.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected','false');});
+    b.setAttribute('aria-selected','true');
+    renderDemo(b.dataset.k);
+  });});
+  renderDemo('partial');
+
+  // ---- shared tap-to-reveal builder ----
+  function rvHTML(o){
+    return '<button class="rv" type="button" aria-expanded="false">'
+      +'<span class="q"><span class="en-s">'+o.en+'</span><span class="hint">訳を見る</span></span>'
+      +'<span class="a"><span class="a-wrap"><span class="a-in">'
+      +'<span class="jp-t">'+o.jp+'</span>'
+      +'<span class="nt">'+o.nt+'</span>'
+      +'</span></span></span></button>';
+  }
+  document.addEventListener('click',function(e){
+    var r=e.target.closest ? e.target.closest('.rv') : null;
+    if(!r)return;
+    var open=r.classList.toggle('open');
+    r.setAttribute('aria-expanded',open?'true':'false');
+    var h=r.querySelector('.hint');
+    if(h)h.textContent=open?'閉じる':'訳を見る';
+  });
+
+  // ---- ② 量・程度の否定 reveals ----
+  var quant=[
+    {en:"I don't have <b>much</b> money.",jp:'あまりお金がない。',nt:'not much ＝量の否定「あまり〜ない」。少しはある。nothing（まったくない）ではない。'},
+    {en:"There isn't <b>much</b> time left.",jp:'残り時間があまりない。',nt:'much は不可算名詞の量。「ゼロ」ではなく「少ない」。'},
+    {en:"<b>Not many</b> people came to the meeting.",jp:'会議に来た人はあまり多くなかった。',nt:'not many ＝数が少ない「あまり〜ない」。all/always 型ではないので部分否定ではない。'},
+    {en:"I have <b>few</b> close friends.",jp:'親しい友人はほとんどいない。',nt:'few（冠詞なし）＝否定的「ほとんど〜ない」。a few（少しはいる）と必ず区別する。'},
+    {en:"There is <b>little</b> hope of success.",jp:'成功の望みはほとんどない。',nt:'little（不可算）＝「ほとんど〜ない」。a little（少しはある）と逆になる。'},
+    {en:"The old man never said <b>much</b>.",jp:'その老人はあまり多くを語らなかった。',nt:'never(全否定)＋目的語 much。「あまり多くは語らない」＝量の否定。said nothing とは違う。'}
+  ];
+  document.getElementById('quantRv').innerHTML=quant.map(rvHTML).join('');
+
+  // ---- ③ pitfalls (タップで訳・意味) ----
+  var pits=[
+    {t:'both の罠：neither / not both / both…not',items:[
+      {en:'<b>Neither</b> of them is right.',jp:'どちらも正しくない。',nt:'全否定。neither は単独で「どちらも〜ない」。'},
+      {en:'<b>Not both</b> of them are right.',jp:'両方ともが正しいわけではない。',nt:'部分否定。＝少なくとも一方は正しくない（両方とも誤りの場合もある）。'},
+      {en:'<b>Both</b> Tom and Mary are <b>not</b> teachers.',jp:'トムとメアリーの両方が教師というわけではない。',nt:'both A and B … not ＝部分否定。「2人とも教師」ではない＝少なくとも一方は教師でない（もう一方は教師かもしれない）。'},
+      {en:'<b>Both</b> of them are <b>not</b> rich.',jp:'両方とも金持ちというわけではない。',nt:'both … not も部分否定。「両方とも金持ち」を否定。「2人とも金持ちでない」と訳すと誤り。'}
+    ]},
+    {t:'「量の否定」は部分否定ではない',items:[
+      {en:"I don't have <b>much</b> money.",jp:'あまりお金がない。',nt:'量の否定。all/always 型ではないので部分否定と呼ばない。'},
+      {en:'The old man never said <b>much</b>.',jp:'その老人はあまり多くを語らなかった。',nt:'never(全否定)＋目的語 much。said nothing とは違い、これも部分否定ではない。'}
+    ]},
+    {t:'準否定語という第3グループ',items:[
+      {en:'I can <b>hardly</b> believe it.',jp:'ほとんど信じられない。',nt:'準否定。ゼロではないが全否定でも部分否定でもない。'},
+      {en:'She <b>seldom</b> eats out.',jp:'彼女はめったに外食しない。',nt:'seldom / rarely（めったに〜ない）も同じ仲間。'}
+    ]},
+    {t:'否定のスコープ：どこを否定している？',items:[
+      {en:"I don't <b>think</b> he is right.",jp:'彼は正しくないと思う。',nt:'not が think を越えて後ろにかかる（否定の繰り上げ）。'},
+      {en:"He didn't come <b>because</b> he was busy.",jp:'忙しいから来なかった／忙しいから来た、のではない。',nt:'not の及ぶ範囲で2通りに読める。'}
+    ]},
+    {t:'二重否定は「控えめな肯定」',items:[
+      {en:'It is <b>not uncommon</b>.',jp:'珍しくない＝わりとよくある。',nt:'強い肯定ではなく婉曲な肯定。'}
+    ]},
+    {t:'訳語の丸暗記は効かない',items:[
+      {en:'He is <b>not always</b> kind.',jp:'彼はいつも親切とは限らない。',nt:'「いつも〜ない」は誤訳。部分否定は「〜とは限らない／〜わけではない」で受ける。'}
+    ]}
+  ];
+  var acc=document.getElementById('acc');
+  acc.innerHTML=pits.map(function(p,i){
+    var body=p.items.map(rvHTML).join('');
+    return '<details'+(i===0?' open':'')+'><summary><span class="num">'+(i+1).toString().padStart(2,'0')+'</span>'+p.t+'<span class="chev">›</span></summary><div class="acc-body">'+body+'</div></details>';
+  }).join('');
+
+  // ---- quiz ----
+  var C={full:'全否定',partial:'部分否定',quant:'量・程度の否定',semi:'準否定'};
+  var qs=[
+    {en:'No one came to the party.',jp:'パーティーに誰も来なかった。',a:'full',
+     ex:'<b>No one</b> は否定語が単独＝全否定。「誰も来なかった」。'},
+    {en:'Not everyone agreed with the plan.',jp:'全員がその案に賛成したわけではない。',a:'partial',
+     ex:'<b>not + everyone</b> ＝部分否定。「全員が賛成した<u>とは限らない</u>」。'},
+    {en:'She is not always on time.',jp:'彼女はいつも時間どおりとは限らない。',a:'partial',
+     ex:'<b>not always</b> ＝部分否定。「いつも〜とは限らない」。'},
+    {en:'He never tells a lie.',jp:'彼は決してうそをつかない。',a:'full',
+     ex:'<b>never</b> は単独の否定語＝全否定。「決して〜ない」。'},
+    {en:'I don\'t have much free time.',jp:'あまり自由な時間がない。',a:'quant',
+     ex:'<b>not much</b> ＝量の否定（あまり〜ない）。all/always 型ではないので部分否定ではない。'},
+    {en:'I can hardly hear you.',jp:'あなたの声がほとんど聞こえない。',a:'semi',
+     ex:'<b>hardly</b> は準否定語。「ほとんど〜ない」。全否定でも部分否定でもない第3グループ。'},
+    {en:'Not both answers are correct.',jp:'両方の答えが正しいわけではない。',a:'partial',
+     ex:'<b>not both</b> ＝部分否定。「両方ともが正しい<u>わけではない</u>」＝少なくとも一方は正しくない（両方とも誤りの場合もあり）。'},
+    {en:'This rumor is not necessarily true.',jp:'このうわさは必ずしも本当ではない。',a:'partial',
+     ex:'<b>not necessarily</b> ＝部分否定の定番。「必ずしも〜ない」。'},
+    {en:'Neither of the twins can swim.',jp:'ふたごのどちらも泳げない。',a:'full',
+     ex:'<b>neither</b> ＝全否定。「どちらも〜ない」。not both（部分否定）と取り違えないこと。'},
+    {en:'The old man never said much.',jp:'その老人はあまり多くを語らなかった。',a:'quant',
+     ex:'never は全否定語だが、ここは目的語 <b>much</b> を否定して「あまり多くは語らない」＝量の否定。said nothing（全否定）とは違う。'}
+  ];
+  var order=['full','partial','quant','semi'];
+  var i=0,score=0,answered=false;
+  var elC=document.getElementById('qcount'),elS=document.getElementById('qscore'),
+      elBar=document.getElementById('qbar'),elT=document.getElementById('qtext'),
+      elJ=document.getElementById('qjp'),elO=document.getElementById('qopts'),
+      elF=document.getElementById('qfb'),elN=document.getElementById('qnext'),
+      elArea=document.getElementById('qarea'),elR=document.getElementById('qresult');
+
+  function render(){
+    var q=qs[i];answered=false;
+    elC.textContent='Q '+(i+1)+' / '+qs.length;
+    elS.textContent='スコア '+score;
+    elBar.style.width=(i/qs.length*100)+'%';
+    elT.textContent=q.en;
+    elJ.textContent=q.jp;
+    elF.className='fb';elF.innerHTML='';
+    elN.disabled=true;elN.textContent=(i===qs.length-1)?'結果を見る':'次へ →';
+    elO.innerHTML=order.map(function(k){
+      return '<button class="opt" data-k="'+k+'">'+C[k]+'</button>';
+    }).join('');
+    elO.querySelectorAll('.opt').forEach(function(b){b.addEventListener('click',pick);});
+  }
+  function pick(e){
+    if(answered)return;answered=true;
+    var q=qs[i],chosen=e.currentTarget.dataset.k;
+    elO.querySelectorAll('.opt').forEach(function(b){
+      b.disabled=true;
+      if(b.dataset.k===q.a)b.classList.add('correct');
+      else if(b.dataset.k===chosen)b.classList.add('wrong');
+    });
+    var ok=chosen===q.a;
+    if(ok)score++;
+    elS.textContent='スコア '+score;
+    elF.className='fb show r';
+    elF.innerHTML='<b>'+(ok?'正解 ✓':'不正解 ✗ 正解は「'+C[q.a]+'」')+'</b><br>'+q.ex;
+    elN.disabled=false;
+  }
+  elN.addEventListener('click',function(){
+    if(i<qs.length-1){i++;render();}
+    else{showResult();}
+  });
+  function showResult(){
+    elArea.classList.add('hidden');elR.classList.remove('hidden');
+    var pct=Math.round(score/qs.length*100);
+    var msg=pct===100?'満点！否定の範囲は完璧です。':pct>=70?'good！目印と別枠（量・準否定）を押さえられています。':'もう一度②の目印を確認してから再挑戦しましょう。';
+    elR.innerHTML='<div class="eyebrow">Result</div><div class="score">'+score+' / '+qs.length+'</div>'
+      +'<p style="color:var(--muted);margin:4px 0 18px">'+msg+'</p>'
+      +'<button class="btn" id="qretry">もう一度</button>';
+    document.getElementById('qretry').addEventListener('click',function(){
+      i=0;score=0;elArea.classList.remove('hidden');elR.classList.add('hidden');render();
+    });
+  }
+  render();
+
+  // ---- translation quiz (量・程度 & 落とし穴) ----
+  function catTag(cat){
+    var m={'量の否定':'quant','準否定':'semi','部分否定':'partial','二重否定':'accent'};
+    var cls=m[cat]||'accent';
+    var sty=cls==='accent'?'color:var(--accent);background:var(--accent-soft)':'color:var(--'+cls+');background:var(--'+cls+'-soft)';
+    return '<span class="tag" style="'+sty+'">'+cat+'</span>';
+  }
+  var tQ=[
+    {en:"I don't have much money.",cat:'量の否定',
+      ex:'<b class="en">not much</b> ＝「あまり〜ない」。少しはある。「まったくない（nothing）」ではない。',
+      opts:[{t:'あまりお金がない',ok:true},{t:'お金がまったくない',ok:false},{t:'お金が必ずしもあるわけではない',ok:false},{t:'お金は全部ある',ok:false}]},
+    {en:"The old man never said much.",cat:'量の否定',
+      ex:'never(全否定)＋目的語 <b class="en">much</b>。「あまり多くは語らなかった」。said nothing（何も言わない）とは違う。',
+      opts:[{t:'その老人はあまり多くを語らなかった',ok:true},{t:'その老人は何も言わなかった',ok:false},{t:'その老人がしゃべることは決してなかった',ok:false},{t:'その老人はいつも多くを語った',ok:false}]},
+    {en:"Few people believed him.",cat:'量の否定',
+      ex:'<b class="en">few</b> ＝「ほとんど〜ない」（否定的）。<b class="en">a few</b>（少しはいる）と区別する。',
+      opts:[{t:'彼を信じる人はほとんどいなかった',ok:true},{t:'少数だが彼を信じる人はいた',ok:false},{t:'みんな彼を信じた',ok:false},{t:'誰も彼を信じなかった',ok:false}]},
+    {en:"I can hardly believe it.",cat:'準否定',
+      ex:'<b class="en">hardly</b> ＝準否定「ほとんど〜ない」。<b class="en">hard</b>（一生懸命・難しい）とは別の語。',
+      opts:[{t:'ほとんど信じられない',ok:true},{t:'まったく信じられない',ok:false},{t:'簡単に信じられる',ok:false},{t:'一生けんめい信じようとする',ok:false}]},
+    {en:"She is seldom absent.",cat:'準否定',
+      ex:'<b class="en">seldom</b> ＝準否定「めったに〜ない」。rarely も同じ仲間。',
+      opts:[{t:'彼女はめったに欠席しない',ok:true},{t:'彼女は決して欠席しない',ok:false},{t:'彼女はいつも欠席する',ok:false},{t:'彼女はときどき欠席する',ok:false}]},
+    {en:"Not both of them are right.",cat:'部分否定',
+      ex:'<b class="en">not both</b> ＝部分否定「両方とも〜とは限らない」＝少なくとも一方は正しくない（両方とも誤りでもよい）。「片方は必ず正しい」とは言えない。<b class="en">neither</b>（どちらも〜ない）とも区別。',
+      opts:[{t:'両方とも正しいわけではない',ok:true},{t:'どちらも正しくない',ok:false},{t:'両方とも正しい',ok:false},{t:'片方は必ず正しい',ok:false}]},
+    {en:"He is not always kind.",cat:'部分否定',
+      ex:'<b class="en">not always</b> ＝部分否定「いつも〜とは限らない」。<b class="en">never</b>（決して〜ない）と混同しない。',
+      opts:[{t:'彼はいつも親切とは限らない',ok:true},{t:'彼は決して親切ではない',ok:false},{t:'彼はいつも親切だ',ok:false},{t:'彼は親切であることがない',ok:false}]},
+    {en:"His story is not uncommon.",cat:'二重否定',
+      ex:'<b class="en">not uncommon</b> ＝二重否定で「珍しくない＝わりとよくある」。控えめな肯定になる。',
+      opts:[{t:'彼の話は珍しくない（わりとよくある）',ok:true},{t:'彼の話はとても珍しい',ok:false},{t:'彼の話はまったく一般的でない',ok:false},{t:'彼の話は本当ではない',ok:false}]}
+  ];
+  var ti=0,tsc=0,tans=false;
+  var tCount=document.getElementById('tcount'),tScore=document.getElementById('tscore'),
+      tBar=document.getElementById('tbar'),tText=document.getElementById('ttext'),
+      tTag=document.getElementById('ttag'),tOpts=document.getElementById('topts'),
+      tFb=document.getElementById('tfb'),tNext=document.getElementById('tnext'),
+      tAreaEl=document.getElementById('tarea'),tResEl=document.getElementById('tresult');
+  function shuffle(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t;}return a;}
+  function tRender(){
+    var q=tQ[ti];tans=false;
+    tCount.textContent='Q '+(ti+1)+' / '+tQ.length;
+    tScore.textContent='スコア '+tsc;
+    tBar.style.width=(ti/tQ.length*100)+'%';
+    tText.textContent=q.en;
+    tTag.innerHTML=catTag(q.cat);
+    tFb.className='fb';tFb.innerHTML='';
+    tNext.disabled=true;tNext.textContent=(ti===tQ.length-1)?'結果を見る':'次へ →';
+    tOpts.innerHTML=shuffle(q.opts).map(function(o){return '<button class="opt" data-ok="'+(o.ok?1:0)+'">'+o.t+'</button>';}).join('');
+    tOpts.querySelectorAll('.opt').forEach(function(b){b.addEventListener('click',tPick);});
+  }
+  function tPick(e){
+    if(tans)return;tans=true;
+    var ok=e.currentTarget.dataset.ok==='1';
+    tOpts.querySelectorAll('.opt').forEach(function(b){
+      b.disabled=true;
+      if(b.dataset.ok==='1')b.classList.add('correct');
+      else if(b===e.currentTarget)b.classList.add('wrong');
+    });
+    if(ok)tsc++;
+    tScore.textContent='スコア '+tsc;
+    tFb.className='fb show r';
+    tFb.innerHTML='<b>'+(ok?'正解 ✓':'不正解 ✗')+'</b><br>'+tQ[ti].ex;
+    tNext.disabled=false;
+  }
+  tNext.addEventListener('click',function(){
+    if(ti<tQ.length-1){ti++;tRender();}
+    else{
+      tAreaEl.classList.add('hidden');tResEl.classList.remove('hidden');
+      var pct=Math.round(tsc/tQ.length*100);
+      var msg=pct===100?'満点！「あまり／ほとんど〜ない」と「まったく〜ない」を正しく訳し分けられています。':pct>=70?'good！量・程度の否定の感覚がつかめています。':'not much / few / hardly は「ゼロではない」。もう一度挑戦！';
+      tResEl.innerHTML='<div class="eyebrow">Result</div><div class="score">'+tsc+' / '+tQ.length+'</div><p style="color:var(--muted);margin:4px 0 18px">'+msg+'</p><button class="btn" id="tretry">もう一度</button>';
+      document.getElementById('tretry').addEventListener('click',function(){ti=0;tsc=0;tAreaEl.classList.remove('hidden');tResEl.classList.add('hidden');tRender();});
+    }
+  });
+  tRender();
+
+  // smooth toc
+  document.querySelectorAll('.toc a').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+  });
+})();
+</script>
+</body></html>
