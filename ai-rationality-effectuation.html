@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI時代における知性・限定合理性・エフェクチュエーション</title>
+<meta name="author" content="松井勇人">
+<meta name="description" content="2026年11月26日の対話に基づく復習・研究資料。アコフの知の階層、限定合理性、エフェクチュエーション、ギーターのブッディを横断して整理した参照用メモ。">
+<style>
+  /* ========== 基本 ========== */
+  :root {
+    --bg: #f3eee4;
+    --paper: #fffcf6;
+    --ink: #2a241c;
+    --muted: #5d564c;
+    --faint: #8a8276;
+    --line: #e0d6c6;
+    --line-strong: #c9bba6;
+    --accent: #7a2f2a;
+    --accent-soft: #f6ece4;
+    --accent-mid: #c4a090;
+    --hyp-ink: #6b4a12;
+    --hyp-bg: #faf1dc;
+    --hyp-line: #d4b56a;
+    --cav-ink: #2f5346;
+    --cav-bg: #eaf2ec;
+    --cav-line: #8aae9a;
+    --essay-bg: #f8f4ec;
+    --shadow: 0 1px 2px rgba(42, 36, 28, .04), 0 8px 24px rgba(42, 36, 28, .06);
+    --radius: 10px;
+    --measure: 42rem;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse at top, #f7f1e6 0%, var(--bg) 55%),
+      var(--bg);
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro",
+      "Yu Gothic", YuGothic, "Noto Sans JP", "Meiryo", sans-serif;
+    font-size: 16.5px;
+    line-height: 1.9;
+    font-feature-settings: "palt" 1;
+    -webkit-font-smoothing: antialiased;
+    text-underline-offset: .2em;
+  }
+  a { color: var(--accent); }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ========== レイアウト ========== */
+  .page {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.4rem 4rem;
+  }
+  header.hero, .yoshi, nav.toc, main section, footer.colophon {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.6rem 1.7rem 1.7rem;
+    margin-bottom: 1.15rem;
+  }
+  main section { padding: 1.8rem 1.7rem 2rem; }
+
+  /* ========== 見出し ========== */
+  .kicker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem .8rem;
+    align-items: baseline;
+    margin: 0 0 .7rem;
+    font-size: .78rem;
+    letter-spacing: .12em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .kicker span { letter-spacing: .06em; color: var(--faint); font-weight: 500; }
+  h1 {
+    margin: 0 0 .6rem;
+    font-size: clamp(1.4rem, 3.6vw, 1.95rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .04em;
+    text-wrap: balance;
+    line-break: strict;
+    word-break: keep-all;
+  }
+  .meta {
+    margin: 0;
+    color: var(--muted);
+    font-size: .92rem;
+  }
+  .meta strong { color: var(--ink); font-weight: 600; }
+  h2 {
+    margin: 0 0 1rem;
+    padding-bottom: .55rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 1.18rem;
+    line-height: 1.5;
+    letter-spacing: .04em;
+    font-weight: 700;
+    line-break: strict;
+    word-break: keep-all;
+  }
+  h2 .num {
+    display: inline-block;
+    min-width: 1.7em;
+    margin-right: .15em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  h3 {
+    margin: 1.4rem 0 .55rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--accent);
+  }
+  p { margin: 0 0 1em; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 650; }
+
+  /* ========== 要旨 ========== */
+  .yoshi h2 {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: .15rem;
+    color: var(--accent);
+    font-size: .82rem;
+    letter-spacing: .18em;
+  }
+  .yoshi .lead {
+    margin: .4rem 0 0;
+    font-size: 1.02rem;
+    line-height: 2;
+  }
+  .yoshi .lead p { margin-bottom: .85em; }
+  .yoshi .lead p:last-child { margin-bottom: 0; }
+
+  .banner {
+    margin: 1.1rem 0 0;
+    padding: .85rem 1rem;
+    background: var(--hyp-bg);
+    border-left: 4px solid var(--hyp-line);
+    border-radius: 0 8px 8px 0;
+    color: var(--hyp-ink);
+    font-size: .92rem;
+    line-height: 1.8;
+  }
+  .banner strong { color: var(--ink); }
+
+  /* ========== 目次 ========== */
+  nav.toc h2 {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: .7rem;
+    font-size: .82rem;
+    letter-spacing: .18em;
+    color: var(--accent);
+  }
+  nav.toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .2rem .8rem;
+  }
+  nav.toc a {
+    display: flex;
+    gap: .55rem;
+    align-items: baseline;
+    padding: .28rem .2rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: 6px;
+  }
+  nav.toc a:hover { background: var(--accent-soft); color: var(--accent); }
+  nav.toc .n {
+    flex: 0 0 1.6em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    font-weight: 650;
+    font-size: .92em;
+  }
+
+  /* ========== 注釈ボックス ========== */
+  .callout {
+    margin: 1.05rem 0 0;
+    padding: .85rem 1rem;
+    border-radius: 0 8px 8px 0;
+    font-size: .93rem;
+    line-height: 1.8;
+  }
+  .callout .lbl {
+    display: block;
+    margin: 0 0 .25rem;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+  }
+  .callout p { margin: 0 0 .6em; }
+  .callout p:last-child { margin-bottom: 0; }
+  .hyp {
+    background: var(--hyp-bg);
+    border-left: 4px solid var(--hyp-line);
+    color: var(--hyp-ink);
+  }
+  .hyp .lbl { color: var(--hyp-ink); }
+  .cav {
+    background: var(--cav-bg);
+    border-left: 4px solid var(--cav-line);
+    color: var(--cav-ink);
+  }
+  .cav .lbl { color: var(--cav-ink); }
+
+  /* ========== 表 ========== */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    margin: .9rem 0 1.1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .92rem;
+    line-height: 1.65;
+    min-width: 28rem;
+  }
+  th, td {
+    text-align: left;
+    vertical-align: top;
+    padding: .55rem .7rem;
+    border-bottom: 1px solid var(--line);
+  }
+  th {
+    background: #f3ebe0;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  tbody tr:nth-child(even) { background: #faf6ef; }
+  tbody tr:hover { background: var(--accent-soft); }
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin: 0 0 .35rem;
+    letter-spacing: .04em;
+  }
+
+  /* ========== 図 ========== */
+  figure.viz {
+    margin: 1.15rem 0 1.2rem;
+    padding: 1rem 1rem 1.05rem;
+    background: linear-gradient(180deg, #fbf7f0, #f6f0e6);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  figure.viz figcaption {
+    margin: .85rem 0 0;
+    font-size: .8rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .viz-title {
+    margin: 0 0 .75rem;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--accent);
+  }
+
+  /* 知の階層ラダー */
+  .ladder { display: flex; flex-direction: column-reverse; gap: .4rem; }
+  .rung {
+    display: grid;
+    grid-template-columns: 7.2rem 1fr 10.5rem;
+    gap: .55rem;
+    align-items: center;
+    padding: .55rem .7rem;
+    border-radius: 8px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+  }
+  .rung .lv {
+    font-weight: 700;
+    font-size: .9rem;
+    line-height: 1.35;
+  }
+  .rung .lv small {
+    display: block;
+    font-weight: 500;
+    color: var(--muted);
+    font-size: .72rem;
+    letter-spacing: .04em;
+  }
+  .rung .mean { font-size: .88rem; color: var(--ink); }
+  .rung .q {
+    font-size: .82rem;
+    color: var(--accent);
+    text-align: right;
+    font-weight: 600;
+  }
+  .rung.l1 { background: #f4eee6; }
+  .rung.l2 { background: #efe6d8; }
+  .rung.l3 { background: #e8d9c8; }
+  .rung.l4 { background: #dfc9b4; }
+  .rung.l5 { background: #d4b49a; }
+
+  /* IT対応 */
+  .era-map { display: flex; flex-direction: column-reverse; gap: .4rem; }
+  .era {
+    display: grid;
+    grid-template-columns: 11.5rem 1fr 1fr;
+    gap: .5rem;
+    align-items: center;
+    padding: .5rem .7rem;
+    border-radius: 8px;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    font-size: .88rem;
+  }
+  .era .when { font-weight: 700; }
+  .era .know { color: var(--accent); font-weight: 650; }
+  .era.future { border-style: dashed; background: #fffaf2; }
+
+  /* キムの階層 */
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: .35rem;
+    max-width: 28rem;
+    margin: 0 auto;
+  }
+  .choice {
+    padding: .45rem .8rem;
+    text-align: center;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    font-weight: 650;
+    font-size: .92rem;
+  }
+  .choice:nth-child(1) { border-radius: 8px 8px 0 0; background: #f6f0e6; } /* 活動（上） */
+  .choice:nth-child(2) { background: #f1e8da; }
+  .choice:nth-child(3) { background: #eadcc9; }
+  .choice:nth-child(4) { background: #e1d0b8; }
+  .choice:nth-child(5) { background: #d6c0a4; }
+  .choice:nth-child(6) { border-radius: 0 0 8px 8px; background: #c9ae8e; } /* 基盤（下） */
+  .q-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    justify-content: center;
+    margin-top: .8rem;
+  }
+  .chip {
+    display: inline-block;
+    padding: .15rem .6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: #fff;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  /* 手段と目的 */
+  .means-ends {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .panel {
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: .8rem .8rem 1rem;
+  }
+  .panel h4 {
+    margin: 0 0 .7rem;
+    font-size: .85rem;
+    letter-spacing: .08em;
+    color: var(--accent);
+    text-align: center;
+  }
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .35rem;
+    font-size: .85rem;
+  }
+  .box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.4rem;
+    padding: .28rem .5rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    background: #faf6ef;
+    font-weight: 650;
+  }
+  .row { display: flex; flex-wrap: wrap; gap: .3rem; justify-content: center; }
+  .arrow { color: var(--faint); font-size: 1.1rem; line-height: 1; }
+  .goal { background: #ead6c4; border-color: #c4a080; }
+
+  /* 3つの手段 */
+  .birds {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .5rem;
+    margin-top: .2rem;
+  }
+  .bird {
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: .7rem .65rem;
+    text-align: center;
+  }
+  .bird strong { display: block; font-size: .88rem; }
+  .bird span { display: block; font-size: .78rem; color: var(--muted); margin-top: .15rem; }
+  .bird.meta-means { border-color: var(--accent-mid); background: var(--accent-soft); }
+
+  /* 循環プロセス */
+  .cycle {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .35rem .25rem;
+    align-items: center;
+    font-size: .82rem;
+  }
+  .cyc {
+    padding: .4rem .55rem;
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 650;
+    max-width: 8.5rem;
+    line-height: 1.45;
+  }
+  .cyc-arrow { color: var(--accent); font-weight: 700; }
+
+  /* 四象限 */
+  .quad-wrap { overflow-x: auto; }
+  .quad {
+    display: grid;
+    grid-template-columns: 2.2rem 1fr 1fr;
+    grid-template-rows: auto 1fr 1fr auto;
+    gap: .4rem;
+    min-width: 28rem;
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  .axis-y {
+    grid-row: 2 / 4;
+    grid-column: 1;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75rem;
+    color: var(--muted);
+    letter-spacing: .12em;
+    font-weight: 700;
+  }
+  .cell {
+    min-height: 6.2rem;
+    padding: .7rem .75rem;
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    font-size: .86rem;
+    line-height: 1.55;
+  }
+  .cell strong { display: block; margin-bottom: .2rem; font-size: .92rem; }
+  .cell .sub { color: var(--muted); font-size: .8rem; }
+  .cell.tr, .cell.br { background: #f6ece4; }
+  .axis-x {
+    grid-column: 2 / 4;
+    text-align: center;
+    font-size: .75rem;
+    color: var(--muted);
+    letter-spacing: .12em;
+    font-weight: 700;
+    padding-top: .2rem;
+  }
+  .pred-hi, .pred-lo {
+    grid-column: 2 / 4;
+    font-size: .72rem;
+    color: var(--faint);
+    letter-spacing: .08em;
+  }
+  .pred-hi { text-align: center; }
+  .pred-lo { text-align: center; }
+
+  /* 知恵と選択の循環 */
+  .wisdom-cycle {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: .6rem;
+    align-items: center;
+  }
+  .stack {
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: .7rem;
+  }
+  .stack h4 {
+    margin: 0 0 .5rem;
+    font-size: .78rem;
+    letter-spacing: .1em;
+    color: var(--accent);
+    text-align: center;
+  }
+  .stack ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: .82rem;
+  }
+  .stack li {
+    padding: .22rem .4rem;
+    border-radius: 4px;
+    margin-bottom: .2rem;
+    background: #f6f0e6;
+    text-align: center;
+  }
+  .stack.know li:last-child,
+  .stack.act li:first-child {
+    background: #e8cbb3;
+    font-weight: 700;
+  }
+  .bridge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+    font-size: .75rem;
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+    max-width: 6.8rem;
+    line-height: 1.45;
+  }
+  .bridge .arr { font-size: 1.3rem; }
+
+  /* 三層 + はさみ */
+  .layers { display: flex; flex-direction: column; gap: .4rem; }
+  .layer {
+    display: grid;
+    grid-template-columns: 8.2rem 1fr 8.2rem;
+    gap: .45rem;
+    align-items: center;
+    padding: .55rem .7rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: #fff;
+    font-size: .85rem;
+  }
+  .layer .nm { font-weight: 700; line-height: 1.35; }
+  .layer .nm small { display: block; font-weight: 500; color: var(--muted); font-size: .75rem; }
+  .layer.ly3 { background: #e8cbb3; }
+  .layer.ly2 { background: #f0ddd0; }
+  .layer.ly1 { background: #f7eee6; }
+  .scissors {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: .5rem;
+    align-items: center;
+    margin-top: .3rem;
+  }
+  .blade {
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: .7rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: .9rem;
+  }
+  .pivot {
+    width: 4.6rem;
+    height: 4.6rem;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 2px solid var(--accent-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: .72rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--accent);
+  }
+
+  /* 中心命題 */
+  .prop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem;
+  }
+  .prop-card {
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    padding: .9rem .85rem;
+  }
+  .prop-card .ph {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--accent);
+    margin-bottom: .3rem;
+  }
+  .prop-card p { margin: 0; font-size: .92rem; }
+
+  /* 論考（ユーザー原文） */
+  .essay {
+    background: var(--essay-bg);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.1rem 1.15rem;
+    margin: .4rem 0 0;
+  }
+  .essay .src {
+    margin: 0 0 .7rem;
+    font-size: .72rem;
+    letter-spacing: .14em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .essay p { margin: 0 0 .7em; }
+  .essay p:last-child { margin-bottom: 0; }
+  .essay .lede { font-weight: 650; }
+
+  /* 原則リスト */
+  .principles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .45rem;
+    margin: .8rem 0 1rem;
+  }
+  .principles dt {
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--accent);
+    margin: 0;
+  }
+  .principles dd {
+    margin: 0 0 .15rem;
+    font-size: .88rem;
+  }
+  .principles .item {
+    background: #faf6ef;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .55rem .7rem;
+  }
+
+  /* 問い */
+  ol.qs {
+    margin: .2rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: q;
+  }
+  ol.qs li {
+    counter-increment: q;
+    display: flex;
+    gap: .7rem;
+    padding: .65rem 0;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.7;
+  }
+  ol.qs li:last-child { border-bottom: none; }
+  ol.qs li::before {
+    content: counter(q, decimal-leading-zero);
+    flex: 0 0 1.8em;
+    color: var(--accent);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 出典 */
+  .sources p { font-size: .92rem; }
+  .sources ul {
+    margin: .3rem 0 1rem;
+    padding: 0 0 0 1.1rem;
+  }
+  .sources li { margin: 0 0 .45rem; }
+
+  footer.colophon {
+    color: var(--muted);
+    font-size: .82rem;
+    line-height: 1.7;
+  }
+  footer.colophon p { margin: 0; }
+
+  /* ギーター節の小さなリスト */
+  .gita {
+    margin: .8rem 0 1rem;
+    padding: 0;
+    list-style: none;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: .9rem;
+  }
+  .gita li {
+    display: grid;
+    grid-template-columns: 6.2rem 1fr;
+    gap: .6rem;
+    padding: .4rem .75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .gita li:nth-child(even) { background: #faf6ef; }
+  .gita li:last-child { border-bottom: none; }
+  .gita .vs { font-weight: 700; color: var(--accent); }
+
+  /* 3つの知性の定義 */
+  .trio {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: .5rem;
+    margin: .8rem 0 1rem;
+  }
+  .trio article {
+    background: #faf6ef;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .7rem .75rem;
+    font-size: .88rem;
+  }
+  .trio h4 {
+    margin: 0 0 .3rem;
+    font-size: .85rem;
+    color: var(--accent);
+    letter-spacing: .04em;
+  }
+
+  /* ========== レスポンシブ ========== */
+  @media (max-width: 720px) {
+    body { font-size: 16px; }
+    .page { padding: 1rem .7rem 2.5rem; }
+    header.hero, .yoshi, nav.toc, main section, footer.colophon {
+      padding: 1.15rem 1rem 1.2rem;
+      border-radius: 8px;
+    }
+    nav.toc ol { grid-template-columns: 1fr; }
+    .rung, .era, .layer {
+      grid-template-columns: 1fr;
+      text-align: left;
+    }
+    .rung .q { text-align: left; }
+    .means-ends, .prop, .principles, .trio, .birds, .wisdom-cycle {
+      grid-template-columns: 1fr;
+    }
+    .bridge { flex-direction: row; max-width: none; justify-content: center; margin: .2rem 0; }
+    .bridge .arr { transform: rotate(90deg); }
+    .scissors { grid-template-columns: 1fr; }
+    .pivot { margin: .2rem auto; }
+    table { min-width: 24rem; }
+  }
+
+  .nw { white-space: nowrap; }
+
+  /* ========== 印刷 ========== */
+  @page { size: A4; margin: 14mm 12mm; }
+  @media print {
+    :root { --bg: #fff; --paper: #fff; --shadow: none; }
+    body { background: #fff; font-size: 10.5pt; line-height: 1.7; color: #111; }
+    .page { max-width: none; padding: 0; }
+    header.hero, .yoshi, nav.toc, main section, footer.colophon {
+      box-shadow: none;
+      border: none;
+      background: transparent;
+      margin-bottom: 8pt;
+      padding: 0 0 6pt;
+      break-inside: auto;
+    }
+    header.hero { border-bottom: 1px solid #ccc; margin-bottom: 12pt; padding-bottom: 8pt; }
+    h2 { break-after: avoid; break-inside: avoid; }
+    figure.viz, .table-wrap, .callout, .prop, .wisdom-cycle, .trio,
+    .means-ends, .principles, .birds, .layers, .scissors, .choices, .ladder, .era-map {
+      break-inside: avoid;
+    }
+    a { color: inherit; text-decoration: none; }
+    nav.toc a:hover { background: none; }
+    tbody tr:hover { background: transparent; }
+    tbody tr:nth-child(even) { background: #f6f6f6; }
+    .rung.l5, .layer.ly3, .choice:nth-child(6) { background: #e8e0d6 !important; }
+    figure.viz, .callout, .essay, .rung, .era, .cell, .prop-card, .bird, .panel,
+    .choice, .layer, .stack li {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <p class="kicker">研究メモ <span>2026年11月26日の対話に基づく復習・研究資料</span></p>
+    <h1>AI時代における<span class="nw">知性</span>・<span class="nw">限定合理性</span>・<span class="nw">エフェクチュエーション</span></h1>
+    <p class="meta">参照用再構成　／　<span>松井勇人</span></p>
+  </header>
+
+  <section class="yoshi" id="yoshi" aria-labelledby="yoshi-h">
+    <h2 id="yoshi-h">要旨</h2>
+    <div class="lead">
+      <p>コンピューターは低次の知の処理を引き受け、人間の責任は消えるのではなく、自ら行うことから管理・監督することへと移ってきた。生成AIが知識と理解を支援するほど、「何にその知を奉仕させるのか」「そもそも何を問題として捉えるか」が問われる。</p>
+      <p>知性の働きを、第1層（問題の解決）、第2層（手続きの選択）、第3層（問題の設定）に分けると、AIは第1層で圧倒的な力を得て第2層にも踏み込み始めた。最大の焦点は第3層である。第1層と第2層には普遍的な思考が要るが、第3層には、どこかに立ち何かを抱えている者から生まれる、限定された思考が要る。</p>
+      <p>サイモンのはさみ（認知の限界と環境の構造）と、ギーゲレンツァーの生態学的合理性は、限定性が合理性を制約するだけでなく、固有の問いを生む条件でもある、という仮説につながる。中心命題は、知識までは限定性を克服することで知性が高まり、理解から知恵へ向かう段階では限定性を引き受けることで知性が深まる、というものである。</p>
+      <p>ウィズダム（何が望ましいかを見極める知）とブッディ（行為を方向づける知性）を、エフェクチュエーションの行為と相互作用によって発見・洗練されるプロセスとして読むのは、本資料の独自の仮説である。</p>
+    </div>
+    <p class="banner"><strong>本資料の性格。</strong>『THEORY』の提示ページ、サラスバシーの図、ギーターについての読書メモ、AIと経済学についての論考、および対話を統合した再構成版であり、逐語的な全チャットの書き起こしではない。<strong>理論間の対応は独自の仮説であり、原典に明示された同一性ではない。</strong></p>
+  </section>
+
+  <nav class="toc" id="toc" aria-labelledby="toc-h">
+    <h2 id="toc-h">目次</h2>
+    <ol>
+      <li><a href="#s1"><span class="n">1</span>出発点：アコフの知の階層</a></li>
+      <li><a href="#s2"><span class="n">2</span>情報技術の歴史と知の階層</a></li>
+      <li><a href="#s3"><span class="n">3</span>変わり続けるための変わらないもの</a></li>
+      <li><a href="#s4"><span class="n">4</span>ギーターのブッディ</a></li>
+      <li><a href="#s5"><span class="n">5</span>エフェクチュエーションとの接続</a></li>
+      <li><a href="#s6"><span class="n">6</span>予測とコントロールの四象限、ギーター</a></li>
+      <li><a href="#s7"><span class="n">7</span>ウィズダムとブッディ</a></li>
+      <li><a href="#s8"><span class="n">8</span>AIと経済学についての論考</a></li>
+      <li><a href="#s9"><span class="n">9</span>完全合理性と限定合理性による再分類</a></li>
+      <li><a href="#s10"><span class="n">10</span>AI時代の教育への示唆</a></li>
+      <li><a href="#s11"><span class="n">11</span>検討したい問い</a></li>
+      <li><a href="#s12"><span class="n">12</span>参照した資料と留保</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section id="s1">
+      <h2><span class="num">1</span>出発点：アコフの知の階層</h2>
+      <p>『THEORY』ではラッセル・アコフの知の階層を紹介し、著者自身の解釈を加えている。</p>
+      <div class="table-wrap">
+        <table>
+          <caption>アコフの知の階層</caption>
+          <thead>
+            <tr><th>階層</th><th>意味</th><th>問い</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>データ Data</td><td>個々の事実</td><td>何が観測されたか</td></tr>
+            <tr><td>情報 Information</td><td>整理された事実</td><td>何が起きているか</td></tr>
+            <tr><td>知識 Knowledge</td><td>やり方を知る</td><td>どうすればよいか</td></tr>
+            <tr><td>理解 Understanding</td><td>理由を知る</td><td>なぜそうなのか</td></tr>
+            <tr><td>知恵 Wisdom</td><td>深い洞察・判断・倫理的配慮</td><td>何をなすべきか</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="viz" aria-label="アコフの知の階層の図">
+        <p class="viz-title">知の階層（下から上へ）</p>
+        <div class="ladder">
+          <div class="rung l1"><div class="lv">データ <small>Data</small></div><div class="mean">個々の事実</div><div class="q">何が観測されたか</div></div>
+          <div class="rung l2"><div class="lv">情報 <small>Information</small></div><div class="mean">整理された事実</div><div class="q">何が起きているか</div></div>
+          <div class="rung l3"><div class="lv">知識 <small>Knowledge</small></div><div class="mean">やり方を知る</div><div class="q">どうすればよいか</div></div>
+          <div class="rung l4"><div class="lv">理解 <small>Understanding</small></div><div class="mean">理由を知る</div><div class="q">なぜそうなのか</div></div>
+          <div class="rung l5"><div class="lv">知恵 <small>Wisdom</small></div><div class="mean">深い洞察・判断・倫理的配慮</div><div class="q">何をなすべきか</div></div>
+        </div>
+      </figure>
+      <p>著者は知恵を、長期的結果と短期的結果のバランスを取るセオリーを適用する能力として解釈する。コンピューターは低次の知の処理を引き受け、人間が高次の知に時間と注意を向けることを可能にしてきた。人間の責任が消えるのではなく、自ら行うことから管理・監督することへと役割が移る。</p>
+    </section>
+
+    <section id="s2">
+      <h2><span class="num">2</span>情報技術の歴史と知の階層</h2>
+      <p>コンピューターによるデータ蓄積管理、インターネット、Web 2.0とSNS、生成AIという発展を、知の階層に重ねる。</p>
+      <div class="table-wrap">
+        <table>
+          <caption>情報技術の発展と、主に拡張された知</caption>
+          <thead>
+            <tr><th>時代</th><th>主に拡張された知</th><th>特徴</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>コンピューター</td><td>データ</td><td>蓄積・処理</td></tr>
+            <tr><td>Web 1.0</td><td>情報</td><td>世界中の情報へのアクセス</td></tr>
+            <tr><td>Web 2.0</td><td>知識</td><td>参加・共有・共同生成</td></tr>
+            <tr><td>生成AI</td><td>知識・理解</td><td>統合、推論、説明、手続きの選択</td></tr>
+            <tr><td>文脈に根ざしたAI（将来仮説）</td><td>理解・知恵の支援</td><td>特定の環境に固有の問いの形成</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="viz" aria-label="情報技術と知の階層の対応図">
+        <p class="viz-title">対応図（下から上へ　／　将来仮説を破線で示す）</p>
+        <div class="era-map">
+          <div class="era"><div class="when">コンピューター</div><div class="know">データ</div><div>蓄積・処理</div></div>
+          <div class="era"><div class="when">Web 1.0</div><div class="know">情報</div><div>世界中の情報へのアクセス</div></div>
+          <div class="era"><div class="when">Web 2.0</div><div class="know">知識</div><div>参加・共有・共同生成</div></div>
+          <div class="era"><div class="when">生成AI</div><div class="know">知識・理解</div><div>統合、推論、説明、手続きの選択</div></div>
+          <div class="era future"><div class="when">文脈に根ざしたAI（将来仮説）</div><div class="know">理解・知恵の支援</div><div>特定の環境に固有の問いの形成</div></div>
+        </div>
+      </figure>
+      <aside class="callout cav">
+        <span class="lbl">留保</span>
+        <p>この対応は歴史を理解するための概念モデルであって、各技術の能力を排他的に分類するものではない。現在のAIも知恵に相当する助言を生成できるが、それを自らの行為の原理として引き受けることとは区別する。</p>
+      </aside>
+    </section>
+
+    <section id="s3">
+      <h2><span class="num">3</span>変わり続けるための変わらないもの</h2>
+      <p>『THEORY』の著者は、変化への対処だけに時間を費やすと、決して変えてはならないものが失われると指摘する。マトゥラーナの「何が保存されるのか」という問いが重要になる。学習能力そのものは善悪いずれの目的にも奉仕し得る。何に奉仕するかを決めるのは目的とコア・バリューである。</p>
+      <p>ダニエル・H・キムの選択の階層（Hierarchy of Choices）では、基盤からアイデンティティ・コア・バリュー、目的、ビジョン、戦略、戦術、活動へとつながる。Who（誰）、Why（なぜ）、What（何を）、How（どのように）、Which（どれを）という問いが対応する。セオリーは望ましいビジョンを達成する戦略の理由を与える。</p>
+      <figure class="viz" aria-label="ダニエル・H・キムの選択の階層">
+        <p class="viz-title">選択の階層（基盤を下に置く）</p>
+        <div class="choices">
+          <div class="choice">活動</div>
+          <div class="choice">戦術</div>
+          <div class="choice">戦略</div>
+          <div class="choice">ビジョン</div>
+          <div class="choice">目的</div>
+          <div class="choice">アイデンティティ・コア・バリュー（基盤）</div>
+        </div>
+        <div class="q-row">
+          <span class="chip">Who（誰）</span>
+          <span class="chip">Why（なぜ）</span>
+          <span class="chip">What（何を）</span>
+          <span class="chip">How（どのように）</span>
+          <span class="chip">Which（どれを）</span>
+        </div>
+        <figcaption>メモは、これらの問いが階層に対応すると述べるが、各層と各問いの一対一の割り当てまでは明示していない。</figcaption>
+      </figure>
+      <aside class="callout hyp">
+        <span class="lbl">仮説</span>
+        <p>変わらないものは固定された未来像ではなく、行為を方向づける価値や判断原理なのではないか。具体的な活動を変えながら、何を大切にするかを保存する。ただし価値や自己理解も、経験を通じて問い直され得る。</p>
+      </aside>
+    </section>
+
+    <section id="s4">
+      <h2><span class="num">4</span>ギーターのブッディ</h2>
+      <p>ブッディ（Buddhi）は知性・識別力・判断力を意味し、語根 budh（目覚める、気づく、理解する）に由来する。ギーターでは欲望に振り回されず、何をなすべきかを識別し、行為を方向づける働きが重要である。</p>
+      <p>第2章41節の vyavasāyātmikā buddhi は「決意を本性とする知性」「決定を性とする知性」。知性が一つに定まることと、具体的な行為や結果が一つに固定されることは同じではない。</p>
+      <ul class="gita">
+        <li><span class="vs">第2章40節</span><span>企てが失われないという教え</span></li>
+        <li><span class="vs">41節</span><span>決意を本性とする知性</span></li>
+        <li><span class="vs">42〜44節</span><span>果報や享楽・権力を求める華々しい言葉への批判</span></li>
+        <li><span class="vs">46節</span><span>水があふれる場所での井戸の比喩</span></li>
+        <li><span class="vs">47節</span><span>行為への権利と果報への非執着</span></li>
+        <li><span class="vs">48節</span><span>成功と不成功への平等な態度</span></li>
+        <li><span class="vs">50節</span><span>行為における巧みさ</span></li>
+        <li><span class="vs">53節</span><span>三昧において不動となる知性</span></li>
+      </ul>
+      <aside class="callout hyp">
+        <span class="lbl">ここから導かれた仮説</span>
+        <p>義務を果たすことが重要であって、結果への執着が重要なのではない。結果を無視するのではなく、結果から学ぶ。ブッディは単に目的を達成する能力ではなく、何を追求すべきかを判断する能力である。「決め方の文法」という表現も有効である。</p>
+      </aside>
+    </section>
+
+    <section id="s5">
+      <h2><span class="num">5</span>エフェクチュエーションとの接続</h2>
+      <p>サラスバシーの Means and Ends の図では、従来型は複数の手段から所与の目的へ収束し、エフェクチュエーションは手元の手段から複数の可能な目的へ展開する。</p>
+      <figure class="viz" aria-label="コーゼーションとエフェクチュエーションの手段と目的">
+        <p class="viz-title">Figure 3　Means and ends（提示図の再構成）</p>
+        <div class="means-ends">
+          <div class="panel">
+            <h4>コーゼーション</h4>
+            <div class="flow">
+              <div class="row">
+                <span class="box">M1</span>
+                <span class="box">M2</span>
+                <span class="box">M3…</span>
+              </div>
+              <div class="arrow">↓ 収束</div>
+              <span class="box goal">Goal（所与の目的）</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h4>エフェクチュエーション</h4>
+            <div class="flow">
+              <span class="box goal">Means（手元の手段）</span>
+              <div class="arrow">↓ 展開</div>
+              <div class="row">
+                <span class="box">E1</span>
+                <span class="box">E2</span>
+                <span class="box">E3</span>
+                <span class="box">E4</span>
+                <span class="box">E5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>コーゼーション：M1、M2、M3… → Goal。エフェクチュエーション：Means → E1、E2、E3、E4、E5。</figcaption>
+      </figure>
+
+      <h3>手中の鳥の原則と、他の原則</h3>
+      <div class="birds">
+        <div class="bird"><strong>Who I am</strong><span>私は誰か</span></div>
+        <div class="bird"><strong>What I know</strong><span>何を知っているか</span></div>
+        <div class="bird"><strong>Whom I know</strong><span>誰を知っているか</span></div>
+      </div>
+      <dl class="principles">
+        <div class="item"><dt>許容可能な損失</dt><dd>失っても耐えられる範囲で行為する。</dd></div>
+        <div class="item"><dt>クレイジーキルト</dt><dd>他者とのコミットメント。</dd></div>
+        <div class="item"><dt>レモネード</dt><dd>偶然や驚きを活用する。</dd></div>
+        <div class="item"><dt>パイロット</dt><dd>予測に依存せず、行為を通じて未来を共創する。</dd></div>
+      </dl>
+
+      <h3>エフェクチュアル・プロセス</h3>
+      <p>プロセスは、手元の手段→何ができるか→他者との相互作用→ステークホルダーのコミットメント→新しい手段・新しいゴール、という循環である。新しい手段は資源を拡大し、新しいゴールは共創された制約を収束させる。</p>
+      <figure class="viz" aria-label="エフェクチュアル・プロセスの循環">
+        <p class="viz-title">循環（Figure 7 に関するメモの整理）</p>
+        <div class="cycle">
+          <div class="cyc">手元の手段</div>
+          <span class="cyc-arrow">→</span>
+          <div class="cyc">何ができるか</div>
+          <span class="cyc-arrow">→</span>
+          <div class="cyc">他者との相互作用</div>
+          <span class="cyc-arrow">→</span>
+          <div class="cyc">ステークホルダーのコミットメント</div>
+          <span class="cyc-arrow">→</span>
+          <div class="cyc">新しい手段・新しいゴール</div>
+          <span class="cyc-arrow">→</span>
+          <div class="cyc">（循環）</div>
+        </div>
+        <figcaption>提示されたメモでは、図の上側を失敗のサイクル、下側を成功のサイクルと読んでいる。ただし原図の資源拡大と制約収束は、成功・失敗に排他的に対応するわけではない。</figcaption>
+      </figure>
+
+      <aside class="callout hyp">
+        <span class="lbl">独自の解釈</span>
+        <p>うまくいかないときには「私は誰か」に戻り、うまくいくときには行為に集中する。起業を自己理解や義務の発見・洗練のプロセスとして捉える。コミットメントこそ最大の報酬だという講義についての読書者の記憶から、義務を知り引き受けることが報酬なのではないかと考える。</p>
+        <p>エフェクチュエーションを義務を発見・洗練するプロセス、コーゼーションを定まった義務を実行するプロセスと位置づける仮説。Who I amを、What I knowとWhom I knowの利用を方向づけるメタレベルの手段とみなす仮説も生まれた。</p>
+      </aside>
+      <aside class="callout cav">
+        <span class="lbl">留保</span>
+        <p>講義の発言は未照合であり、コミットメントだけで義務の正しさが証明されるわけではない。</p>
+      </aside>
+    </section>
+
+    <section id="s6">
+      <h2><span class="num">6</span>予測とコントロールの四象限、ギーター</h2>
+      <p>読書メモでは左下を無為、左上を結果、右上を教義、右下を遊び・三昧と対応させる案が出た。右上のビジョナリー型は予測とコントロールが高く、約束された果報を正しい手順で得るヴェーダ祭式との類似が指摘された。右下のトランスフォーメーション型は予測への依存が低く、手元の行為と共創に重点を置く。ギーターの果報への非執着と構造的に似ている。</p>
+      <figure class="viz" aria-label="予測とコントロールの四象限への読書メモの対応">
+        <p class="viz-title">読書メモの対応案（四象限の原義ではない）</p>
+        <div class="quad-wrap">
+          <div class="quad">
+            <div class="pred-hi">予測が高い（上）</div>
+            <div class="axis-y">予　測</div>
+            <div class="cell tl"><strong>結果</strong><span class="sub">左上</span></div>
+            <div class="cell tr"><strong>教義／ビジョナリー型</strong><span class="sub">右上。予測とコントロールが高い。約束された果報を正しい手順で得るヴェーダ祭式との類似。</span></div>
+            <div class="cell bl"><strong>無為</strong><span class="sub">左下</span></div>
+            <div class="cell br"><strong>遊び・三昧／トランスフォーメーション型</strong><span class="sub">右下。予測への依存が低く、手元の行為と共創に重点を置く。果報への非執着と構造的に似ている。</span></div>
+            <div class="axis-x">コントロールが低い（左）　——　コントロールが高い（右）　→</div>
+          </div>
+        </div>
+        <figcaption>右上は特定の結果を定め、行為をその手段とする。右下は行為の原理を定め、具体的な結果には開かれている。</figcaption>
+      </figure>
+      <p>三昧と遊びは、静かな決意と結果に執着しない動的な行為を結ぶ可能性がある。</p>
+      <aside class="callout cav">
+        <span class="lbl">留保</span>
+        <p>これは宗教思想と経営理論を重ねた解釈であり、四象限の原義ではない。ビジョンや予測自体が悪いわけでもない。</p>
+      </aside>
+    </section>
+
+    <section id="s7">
+      <h2><span class="num">7</span>ウィズダムとブッディ</h2>
+      <p>知の階層の頂点にあるウィズダムと、選択の階層の基盤にある目的・価値・アイデンティティを結びつける。</p>
+      <figure class="viz" aria-label="知の階層と選択の階層の循環">
+        <p class="viz-title">対応図：知の到達点が行為の出発点になる</p>
+        <div class="wisdom-cycle">
+          <div class="stack know">
+            <h4>知の階層</h4>
+            <ol>
+              <li>データ</li>
+              <li>情報</li>
+              <li>知識</li>
+              <li>理解</li>
+              <li>知恵</li>
+            </ol>
+          </div>
+          <div class="bridge">
+            <span>知恵が行為の出発点へ</span>
+            <span class="arr">→</span>
+            <span>行為を通じて知恵が洗練される</span>
+            <span class="arr">←</span>
+          </div>
+          <div class="stack act">
+            <h4>選択の階層</h4>
+            <ol>
+              <li>アイデンティティ・価値</li>
+              <li>目的</li>
+              <li>ビジョン</li>
+              <li>戦略</li>
+              <li>戦術</li>
+              <li>活動</li>
+            </ol>
+          </div>
+        </div>
+        <figcaption>知の到達点が行為の出発点になる。行為を通じて再び知恵が洗練される。</figcaption>
+      </figure>
+      <div class="trio">
+        <article>
+          <h4>ウィズダム</h4>
+          <p>何が望ましいかを見極める深い知。</p>
+        </article>
+        <article>
+          <h4>ブッディ</h4>
+          <p>識別し、判断し、行為を方向づける知性。</p>
+        </article>
+        <article>
+          <h4>エフェクチュエーション</h4>
+          <p>行為と他者との相互作用を通じて、その知性を発見・洗練するプロセス（独自解釈）。</p>
+        </article>
+      </div>
+      <aside class="callout hyp">
+        <span class="lbl">仮説</span>
+        <p>両者を同一視せず、機能的な共通性を検討する。知性が定まっているからこそ、目的は多様であり得る。未来を固定するための知性から、未来を開いておくための知性へ。</p>
+      </aside>
+    </section>
+
+    <section id="s8">
+      <h2><span class="num">8</span>AIと経済学についての論考（ユーザー原文）</h2>
+      <div class="essay">
+        <p class="src">ユーザー原文</p>
+        <p class="lede">「AIは数学をのみ込みつつある。次は経済学か」<br>記事の問いの立て方が秀逸だ。</p>
+        <p>経済学でも、すでに多くの論文がAIの影響を受けている。ただ、まだ人に分があるという見立てらしい。</p>
+        <p>今年1月、英検1級や難関大の英語の問題をAIさんに解いてもらうと、平気でかなり間違えた。だが9月ごろからはミスがほぼゼロに。恐るべき進歩だった。これからどれほど追い上げてくるだろうか。</p>
+        <p>ここで知性の働きを三つに分けてみたい。</p>
+        <p>第1層（問題の解決）：与えられた条件のもとで解を求める<br>
+        第2層（手続きの選択）：どの方法で解くかを選ぶ<br>
+        第3層（問題の設定）：そもそも何を問題として捉えるか</p>
+        <p>AIは第1層で圧倒的な力を得て、第2層にも踏み込み始めた。最大の焦点は第3層だ。</p>
+        <p>第1層と第2層には普遍的な思考が要る。だが第3層には、逆に限定された思考が要るのではないか。サイモンの限定合理性、そしてサラスバシーの「手持ちの手段から始める」発想。問いは、どこかに立ち、何かを抱えている者から生まれる。</p>
+        <p>すべてを学んだ普遍の立場にいるAIさん達は、この限定をどう手に入れるのだろうか。</p>
+        <p>そもそもAIの源流にはサイモンがいる。1956年、ニューウェルと作った最初期のAIは、すべてを調べ尽くさず、経験則で探索を絞るという発想でできていた。</p>
+        <p>今のAIさん達も経験則を持っている。ただしそれは膨大なデータから学んだ、あらゆる人の経験を平均した経験則だ。いわば「誰のものでもない経験則」。経験則は持っていても、限定はされていない。</p>
+        <p>サイモンは、合理的な行動を「はさみ」にたとえた。一方の刃は認知の限界、もう一方の刃は環境の構造。経験則は、特定の環境とかみ合ってはじめて切れ味を持つ。</p>
+        <p>だとすれば、AIさんが良い問いを生むには、逆説的だが「限界」が必要なのではないか。</p>
+        <p>サイモンの系譜を継いだギーゲレンツァーは、知らないことがあるからこそ上手く判断できる場合があると示した。問いも同じだ。すべて見えていれば「なぜ？」は湧かない。</p>
+        <p>必要なのは、誰かの立場やある場所に縛られた「形のある欠け」。学校に通えない子が、通っている子には見えない問いを持てるように。</p>
+        <p>AIさんが限定を手に入れる道は、場所を与えられることだろう。ある会社、ある教室に長く置かれ、記憶と文脈を積み重ねれば、その場所に固有の問題に気づけるようになるはずだ。</p>
+        <p>経済学では、数学的な思考と人間的な発想が混ざり合う。経済学の論文がどれだけAIさんの作品に置き換わっていくかは、AIさんが人にどれだけ近づいたかを測る良い指標になりそうだ。</p>
+        <p>ただそれは、人が置き換えられていく度合いでもあるのだけれど。</p>
+      </div>
+      <figure class="viz" aria-label="知性の三層">
+        <p class="viz-title">知性の三層（論考の整理）</p>
+        <div class="layers">
+          <div class="layer ly3">
+            <div class="nm">第3層<small>問題の設定</small></div>
+            <div>そもそも何を問題として捉えるか。限定された思考が要る。問いは、どこかに立ち、何かを抱えている者から生まれる。</div>
+            <div>最大の焦点</div>
+          </div>
+          <div class="layer ly2">
+            <div class="nm">第2層<small>手続きの選択</small></div>
+            <div>どの方法で解くかを選ぶ。普遍的な思考が要る。</div>
+            <div>AIが踏み込み始めた</div>
+          </div>
+          <div class="layer ly1">
+            <div class="nm">第1層<small>問題の解決</small></div>
+            <div>与えられた条件のもとで解を求める。普遍的な思考が要る。</div>
+            <div>AIが圧倒的な力</div>
+          </div>
+        </div>
+      </figure>
+      <figure class="viz" aria-label="サイモンのはさみの比喩">
+        <p class="viz-title">サイモンのはさみ</p>
+        <div class="scissors">
+          <div class="blade">一方の刃<br>認知の限界</div>
+          <div class="pivot">経験則の<br>切れ味</div>
+          <div class="blade">もう一方の刃<br>環境の構造</div>
+        </div>
+        <figcaption>経験則は、特定の環境とかみ合ってはじめて切れ味を持つ。今のAIの経験則は「誰のものでもない経験則」であり、経験則は持っていても限定はされていない、というのが論考の見立てである。</figcaption>
+      </figure>
+    </section>
+
+    <section id="s9">
+      <h2><span class="num">9</span>完全合理性と限定合理性による知の階層の再分類</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>知の階層と合理性の性質（仮説）</caption>
+          <thead>
+            <tr><th>知の階層</th><th>合理性の性質（仮説）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>知恵</td><td>限定合理性・価値判断</td></tr>
+            <tr><td>理解</td><td>完全合理性と限定合理性の交差点</td></tr>
+            <tr><td>知識</td><td>完全合理性志向・一部限定合理性</td></tr>
+            <tr><td>情報</td><td>完全合理性志向</td></tr>
+            <tr><td>データ</td><td>完全合理性志向</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>理解の段階から、普遍的な知を個別の文脈に位置づける働きが重要になる。知恵の段階では、目的自体を問い直す。例：欠席30日（データ）、欠席増加（情報）、不登校支援方法（知識）、なぜこの子が通えないのか（理解）、そもそも学校へ戻すべきなのか（知恵）。</p>
+      <p>サイモンのはさみの比喩：認知の限界と環境の構造のかみ合わせ。ギーゲレンツァーの生態学的合理性：経験則の有効性は環境に依存する。ここから、限定性は合理性を制約するだけでなく、固有の問いを生む条件でもあるという仮説が生まれる。</p>
+      <figure class="viz" aria-label="知の階層・合理性・知性の三層の対応">
+        <p class="viz-title">三層との対応（仮説）</p>
+        <div class="table-wrap" style="margin:0">
+          <table style="min-width:22rem">
+            <thead>
+              <tr><th>知性の三層</th><th>知の階層</th><th>要点</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>第1層（問題解決）</td><td>データ・情報・知識</td><td>与えられた条件のもとで解を求める</td></tr>
+              <tr><td>第2層（手続き選択）</td><td>知識・理解</td><td>ここからプロセス合理性が重要になる</td></tr>
+              <tr><td>第3層（問題設定）</td><td>理解・知恵</td><td>限定性そのものが創造性の源泉となる可能性がある</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption>理解は第2層と第3層の両方にまたがり、合理性の交差点でもある。</figcaption>
+      </figure>
+      <aside class="callout cav">
+        <span class="lbl">留保</span>
+        <p>厳密には限定合理性は全階層に関係する。完全合理性は普遍性と同義ではなく、所与の選択肢・選好・情報のもとで最適化する理想化されたモデルである。データの選択にも文脈があり、理解にも一般的な因果説明がある。従って上表は合理性の厳密な分類ではなく、文脈依存性と主体性の重要度についての仮説である。</p>
+        <p>AIも計算能力、情報アクセス、探索時間などに限界がある。「誰のものでもない経験則」は哲学的比喩であって、学習データの単純平均という技術的説明ではない。問題は限定性の有無ではなく、特定の環境に長期的に関わることで生まれる限定性である。場所と記憶を与えるだけで倫理的責任や知恵が成立するかは未解決である。</p>
+      </aside>
+    </section>
+
+    <section id="s10">
+      <h2><span class="num">10</span>AI時代の教育への示唆</h2>
+      <p>これまでの教育は知識・技能を獲得し、与えられた目的を達成することに重点を置いてきた。AIが知識と理解を支援するほど、何にその知を奉仕させるのかが重要になる。</p>
+      <p>未来を定めるのではなく、知性を定める。知性が定まっているからこそ未来を開いておける。知性を定めるためには行為する必要がある。行為の結果は知性を洗練させる素材となる。変わり続けることによって変わらないものが発見される。</p>
+      <figure class="viz" aria-label="教育に関する中心命題">
+        <p class="viz-title">中心命題（検討すべき仮説）</p>
+        <div class="prop">
+          <div class="prop-card">
+            <div class="ph">知識まで</div>
+            <p>限定性を克服することで知性が高まる。</p>
+          </div>
+          <div class="prop-card">
+            <div class="ph">理解から知恵へ</div>
+            <p>限定性を引き受けることで知性が深まる。</p>
+          </div>
+        </div>
+        <figcaption>これは検討すべき仮説であり、限定性が常に有益だという意味ではない。</figcaption>
+      </figure>
+    </section>
+
+    <section id="s11">
+      <h2><span class="num">11</span>NotebookLMで検討したい問い</h2>
+      <ol class="qs">
+        <li>理解はなぜ合理性の転換点になるのか。反例はあるか。</li>
+        <li>限定合理性と文脈依存性、価値判断をどう区別するか。</li>
+        <li>ウィズダムとブッディはどこまで機能的に共通し、どこで異なるか。</li>
+        <li>Who I amは手段の一つなのか、他の手段を方向づける原理なのか。</li>
+        <li>私は誰かを知ってから行為するのか、行為することで知るのか。</li>
+        <li>コミットメントは義務の発見を示すのか、それとも誤った確信にもなり得るのか。</li>
+        <li>AIに場所・記憶・文脈を与えることで固有の問いは生まれるか。</li>
+        <li>問いを生むことと、問いに責任を負うことはどう異なるか。</li>
+        <li>AI時代の教育にエフェクチュエーションをどう導入できるか。</li>
+      </ol>
+    </section>
+
+    <section id="s12" class="sources">
+      <h2><span class="num">12</span>参照した資料と留保</h2>
+      <ul>
+        <li>『THEORY（セオリー）：「学習する組織」を構築する理論と実践ツール』の提示ページ（知のレベル、知恵に奉仕するために、選択の階層、学習は何のためにあるのか）。</li>
+        <li>Daniel H. Kim, <i>Foresight as a Central Ethic of Leadership</i>（提示図の出典表記）。</li>
+        <li>Saras Sarasvathy, <i>Effectuation: Rethinking Fundamental Concepts in the Social Sciences</i>（提示図 Figure 3 Means and ends、Figure 7 The effectual process with performance implications）。</li>
+        <li>『バガヴァッド・ギーター』第2章40〜53節についてのユーザー読書メモ。</li>
+        <li>サイモン、ギーゲレンツァーについてのユーザー論考。</li>
+        <li><i>The Economist</i>の記事についてのユーザー論考。</li>
+      </ul>
+      <aside class="callout cav">
+        <span class="lbl">留保</span>
+        <p>原典全体や記事本文、講義動画は今回再確認していない。提示されたページとメモおよび確認できる対話に基づく研究ノートであり、学術的な引用に用いる際には原典照合が必要である。</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>本HTMLは、2026年11月26日の対話に基づく研究メモを、思考の整理のための参照用に再構成したものである。理論間の対応は独自の仮説であり、原典に明示された同一性ではない。</p>
+  </footer>
+</div>
+</body>
+</html>
